@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import PlusIcon from "@/assets/icons/PlusIcon";
-import '@/styles/styles.css';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Terminal } from 'lucide-react';
+import "@/styles/styles.css";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -11,34 +11,38 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from 'shadcn-ui';
-import { Input } from "shadcn-ui";
-import { Label } from "shadcn-ui";
-import { Button } from "shadcn-ui";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "shadcn-ui";
+} from "@/components/ui/select";
 interface TaskBarProps {
   onAddTask: (task: string) => void;
 }
 
 const TaskBar: React.FC<TaskBarProps> = ({ onAddTask }) => {
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('pending');
-  const [alert, setAlert] = useState({ show: false, variant: 'success', message: '' });
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("pending");
+  const [alert, setAlert] = useState({
+    show: false,
+    variant: "success",
+    message: "",
+  });
   const [inputValue, setInputValue] = React.useState("");
 
   const handleAddTask = async () => {
     if (title.trim() && description.trim()) {
       try {
-        const response = await axios.post('http://localhost:4000/tasks/', {
+        const response = await axios.post("http://localhost:4000/tasks/", {
           title: title.trim(),
           description: description.trim(),
           status,
@@ -46,16 +50,28 @@ const TaskBar: React.FC<TaskBarProps> = ({ onAddTask }) => {
 
         if (response.status === 201) {
           onAddTask(title.trim());
-          setTask('');
+          setTask("");
           setShowForm(false);
-          setAlert({ show: true, variant: 'success', message: 'Task created successfully' });
+          setAlert({
+            show: true,
+            variant: "success",
+            message: "Task created successfully",
+          });
         } else {
-          console.error('Unexpected response status:', response.status);
-          setAlert({ show: true, variant: 'danger', message: 'Task not created. An unexpected error occurred.' });
+          console.error("Unexpected response status:", response.status);
+          setAlert({
+            show: true,
+            variant: "danger",
+            message: "Task not created. An unexpected error occurred.",
+          });
         }
       } catch (error) {
-        console.error('Error adding task:');
-        setAlert({ show: true, variant: 'danger', message: 'Task not created. An unexpected error occurred.' });
+        console.error("Error adding task:");
+        setAlert({
+          show: true,
+          variant: "danger",
+          message: "Task not created. An unexpected error occurred.",
+        });
       }
     }
   };
