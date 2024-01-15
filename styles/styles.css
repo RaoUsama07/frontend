@@ -1,8 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
-  background-image: url('../assets/images/image.webp'); 
+  font-family: "Arial", sans-serif;
+  background-image: url("../assets/images/image.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,5 +18,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
+  height: 100vh;
+}
+.task-bar-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.plus-icon-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }

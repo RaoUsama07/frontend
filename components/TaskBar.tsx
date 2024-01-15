@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import PlusIcon from "@/assets/icons/PlusIcon";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Terminal } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface TaskBarProps {
   onAddTask: (task: string) => void;
 }
 
 const TaskBar: React.FC<TaskBarProps> = ({ onAddTask }) => {
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('pending');
-  const [alert, setAlert] = useState({ show: false, variant: 'success', message: '' });
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("pending");
+  const { toast } = useToast();
 
   const handleAddTask = async () => {
     if (title.trim() && description.trim()) {
       try {
-        const response = await axios.post('http://localhost:4000/tasks/', {
+        const response = await axios.post("http://localhost:4000/tasks/", {
           title: title.trim(),
           description: description.trim(),
           status,
@@ -28,38 +29,55 @@ const TaskBar: React.FC<TaskBarProps> = ({ onAddTask }) => {
 
         if (response.status === 201) {
           onAddTask(title.trim());
-          setTask('');
+          setTask("");
           setShowForm(false);
-          setAlert({ show: true, variant: 'success', message: 'Task created successfully' });
+          toast({
+            title: "Task created successfully",
+            description: "The task has been added.",
+            status: "success",
+          });
         } else {
-          console.error('Unexpected response status:', response.status);
-          setAlert({ show: true, variant: 'danger', message: 'Task not created. An unexpected error occurred.' });
+          console.error("Unexpected response status:", response.status);
+          toast({
+            title: "Error",
+            description: "An unexpected error occurred. Task not created.",
+            status: "error",
+          });
         }
       } catch (error) {
-        console.error('Error adding task:');
-        setAlert({ show: true, variant: 'danger', message: 'Task not created. An unexpected error occurred.' });
+        console.error("Error adding task:");
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred. Task not created.",
+          status: "error",
+        });
       }
     }
   };
 
   return (
     <div className="task-bar-container">
-      <input
-        type="text"
-        placeholder="Add new task..."
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-      />
-      <PlusIcon onClick={() => setShowForm(!showForm)} />
+      <div className="textarea-container">
+        <Textarea
+          placeholder="Add new task..."
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button
+          className="plus-icon-button"
+          onClick={() => setShowForm(!showForm)}
+        >
+          <PlusIcon onClick={undefined} />
+        </button>
+      </div>
       {showForm && (
         <div className="form-container">
-          <input
+          <Input
             type="text"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <input
+          <Input
             type="text"
             placeholder="Description"
             value={description}
@@ -69,17 +87,8 @@ const TaskBar: React.FC<TaskBarProps> = ({ onAddTask }) => {
             <option value="pending">Pending</option>
             <option value="completed">Completed</option>
           </select>
-          <button onClick={handleAddTask}>Add</button>
+          <Button onClick={handleAddTask}>Add</Button>
         </div>
-      )}
-      {alert.show && (
-        <Alert>
-        <Terminal className="h-4 w-4" />
-        <AlertTitle>Heads up!</AlertTitle>
-        <AlertDescription>
-          Created
-        </AlertDescription>
-      </Alert>
       )}
     </div>
   );

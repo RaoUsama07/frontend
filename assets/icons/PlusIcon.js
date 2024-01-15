@@ -8,7 +8,7 @@ const PlusIcon = ({ onClick }) => {
       stroke="#7c6f5a"
       onClick={onClick}
       className="w-6 h-6"
-      height={100}
+      height={50}
     >
       <path
         strokeLinecap="round"

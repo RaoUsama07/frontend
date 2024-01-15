@@ -1,9 +1,11 @@
-"use client"
-import React, { useState } from 'react';
-import ProfilePicture from '../../components/ProfilePic';
-import TaskBar from '../../components/TaskBar';
-import TaskList from '../../components/TaskList';
-import '@/styles/styles.css';
+"use client";
+import React, { useState } from "react";
+import ProfilePicture from "../../components/ProfilePic";
+import TaskBar from "../../components/TaskBar";
+import TaskList from "../../components/TaskList";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import "@/styles/styles.css";
 const HomePage: React.FC = () => {
   const [tasks, setTasks] = useState<string[]>([]);
 
@@ -13,13 +15,17 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="container">
-      <ProfilePicture  />
+      <ProfilePicture />
       <TaskBar onAddTask={handleAddTask} />
-      <TaskList tasks={tasks} onDeleteTask={function (id: string): void {
-        throw new Error('Function not implemented.');
-      } } onUpdateTask={function (id: string, updatedTask: string): void {
-        throw new Error('Function not implemented.');
-      } } />
+      <TaskList
+        tasks={tasks}
+        onDeleteTask={function (id: string): void {
+          throw new Error("Function not implemented.");
+        }}
+        onUpdateTask={function (id: string, updatedTask: string): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </div>
   );
 };
