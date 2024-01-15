@@ -2,6 +2,7 @@
 import React from 'react';
 import HomePage from './HomePage'; // Import HomePage component
 import '@/styles/styles.css';
+import { Component } from 'lucide-react';
 function MyApp({ Component : any , pageProps : any }) {
   // You can add global providers or layouts here if needed
   return (
